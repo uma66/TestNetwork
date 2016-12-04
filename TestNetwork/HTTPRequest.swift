@@ -101,12 +101,13 @@ extension HTTPRouter where Self: URLRequestConvertible {
     
     func eliminateNilParams(params: RequestParams?) -> [String: Any]? {
         var eliminatedParams: [String: Any]? = [:]
+        guard let parameters = params else {
+            return params
+        }
         
-        if let keys = params?.keys {
-            for key in keys {
-                if let value = params?[key] {
-                    eliminatedParams?[key] = value
-                }
+        for (key, value) in parameters {
+            if let _ = value {
+                eliminatedParams?[key] = value
             }
         }
         return eliminatedParams
